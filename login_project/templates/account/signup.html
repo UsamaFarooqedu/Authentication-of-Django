@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="text-center mb-4 fw-bold">Create Your Account</h2>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <!-- Username Field (Fixed) -->
+            <div class="mb-3">
+              <label for="id_username" class="form-label">Username</label>
+              <input type="text" name="username" id="id_username" 
+                     class="form-control" 
+                     value="{{ form.username.value|default:'' }}"
+                     placeholder="Enter username"
+                     required>
+              {{ form.username.errors }}
+            </div>
+
+            <!-- Email Field (Fixed) -->
+            <div class="mb-3">
+              <label for="id_email" class="form-label">Email</label>
+              <input type="email" name="email" id="id_email" 
+                     class="form-control" 
+                     value="{{ form.email.value|default:'' }}"
+                     placeholder="Enter email"
+                     required>
+              {{ form.email.errors }}
+            </div>
+
+            <!-- Phone Number Field (Fixed) -->
+            <div class="mb-3">
+              <label for="id_phone_number" class="form-label">Phone Number</label>
+              <input type="text" name="phone_number" id="id_phone_number" 
+                     class="form-control" 
+                     value="{{ form.phone_number.value|default:'' }}"
+                     placeholder="Enter phone number">
+              {{ form.phone_number.errors }}
+            </div>
+
+            <!-- Date of Birth Field (Fixed) -->
+            <div class="mb-3">
+              <label for="id_date_of_birth" class="form-label">Date of Birth</label>
+              <input type="date" name="date_of_birth" id="id_date_of_birth" 
+                     class="form-control" 
+                     value="{{ form.date_of_birth.value|default:'' }}">
+              {{ form.date_of_birth.errors }}
+            </div>
+
+            <!-- Profile Picture Field (Fixed) -->
+            <div class="mb-3">
+              <label for="id_profile_picture" class="form-label">Profile Picture</label>
+              <input type="file" name="profile_picture" id="id_profile_picture" 
+                     class="form-control">
+              {{ form.profile_picture.errors }}
+            </div>
+
+            <!-- Password Field (Fixed) -->
+            <div class="mb-3">
+              <label for="id_password1" class="form-label">Password</label>
+              <input type="password" name="password1" id="id_password1" 
+                     class="form-control" 
+                     placeholder="Enter password"
+                     required>
+              {{ form.password1.errors }}
+            </div>
+
+            <!-- Confirm Password Field (Fixed) -->
+            <div class="mb-4">
+              <label for="id_password2" class="form-label">Confirm Password</label>
+              <input type="password" name="password2" id="id_password2" 
+                     class="form-control" 
+                     placeholder="Confirm password"
+                     required>
+              {{ form.password2.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">Sign Up</button>
+          </form>
+
+          <div class="text-center my-4">
+            <span class="text-muted">or</span>
+          </div>
+
+          <div class="d-grid gap-2">
+            <a href="{% provider_login_url 'google' %}" class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" height="20">
+              Sign up with Google
+            </a>
+            <a href="{% provider_login_url 'facebook' %}" class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2">
+              <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook" width="20" height="20">
+              Sign up with Facebook
+            </a>
+          </div>
+
+          <p class="text-center mt-4">
+            Already have an account? 
+            <a href="{% url 'login' %}" class="text-decoration-none">Login</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

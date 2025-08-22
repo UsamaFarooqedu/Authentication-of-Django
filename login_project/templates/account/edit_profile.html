@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block title %} Edit Profile {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Edit Profile</h4>
+                </div>
+                <div class="card-body p-4">
+                    {% if messages %}
+                    <div class="messages mb-4">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <!-- Profile Picture Section -->
+                            <div class="col-md-4 mb-4 text-center">
+                                <div class="profile-image-preview mb-3">
+                                    {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle profile-image shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                                    {% else %}
+                                    <div class="profile-placeholder rounded-circle d-flex align-items-center justify-content-center bg-light shadow" style="width: 150px; height: 150px; margin: 0 auto;">
+                                        <i class="bi bi-person-fill" style="font-size: 4rem; color: #6c757d;"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Change Profile Picture</label>
+                                    <input type="file" class="form-control" name="{{ form.profile_picture.name }}" id="{{ form.profile_picture.id_for_label }}">
+                                    {% if form.profile_picture.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.profile_picture.errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Form Fields Section -->
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.username.id_for_label }}" class="form-label">Username *</label>
+                                        <input type="text" class="form-control" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}" required>
+                                        {% if form.username.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.username.errors %}
+                                            {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
+                                        <input type="email" class="form-control" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}" required>
+                                        {% if form.email.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.email.errors %}
+                                            {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" name="{{ form.phone_number.name }}" id="{{ form.phone_number.id_for_label }}" value="{{ form.phone_number.value|default_if_none:'' }}">
+                                        {% if form.phone_number.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.phone_number.errors %}
+                                            {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.date_of_birth.id_for_label }}" class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" name="{{ form.date_of_birth.name }}" id="{{ form.date_of_birth.id_for_label }}" value="{{ form.date_of_birth.value|date:'Y-m-d' }}">
+                                        {% if form.date_of_birth.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.date_of_birth.errors %}
+                                            {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Additional spacing to compensate for removed bio section -->
+                                <div class="mt-4"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'profile' %}" class="btn btn-outline-secondary me-md-2">
+                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Last updated: {{ user.updated_at|date:"F j, Y" }}</small>
+                        <a href="{% url 'change_password' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-key me-1"></i>Change Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-image-preview {
+    transition: transform 0.3s ease;
+}
+
+.profile-image-preview:hover {
+    transform: scale(1.05);
+}
+
+.form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card {
+    border: none;
+    border-radius: 1rem;
+}
+
+.card-header {
+    border-radius: 1rem 1rem 0 0 !important;
+}
+</style>
+
+<script>
+// Live preview for profile picture
+document.getElementById('{{ form.profile_picture.id_for_label }}').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.querySelector('.profile-image-preview');
+            preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">`;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+})()
+</script>
+{% endblock %}

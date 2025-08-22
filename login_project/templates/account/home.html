@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Login Project{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Welcome to Login Project</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-shield-lock" style="font-size: 4rem; color: #0d6efd;"></i>
+                        <h3 class="mt-3">Secure Authentication System</h3>
+                        <p class="lead">A complete authentication solution with login, signup, profile management and more.</p>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-lg">
+                                    <i class="bi bi-person-plus me-2"></i>Sign Up
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <i class="bi bi-shield-check" style="font-size: 2rem; color: #0d6efd;"></i>
+                            <h5 class="mt-2">Secure</h5>
+                            <p>Built with security best practices</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-person-gear" style="font-size: 2rem; color: #0d6efd;"></i>
+                            <h5 class="mt-2">User Management</h5>
+                            <p>Complete profile control</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-google" style="font-size: 2rem; color: #0d6efd;"></i>
+                            <h5 class="mt-2">Social Login</h5>
+                            <p>Connect with social accounts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center text-muted">
+                    <small>Powered by Django & django-allauth</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
